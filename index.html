@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>BINC Lote Runner</title>
+
+  <!-- Offline-first: sem dependências externas. Se quiser usar Google Fonts, adicione links aqui (opcional). -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+  <div class="app">
+    <header class="topbar" role="banner">
+      <div class="topbar-left">
+        <!-- Opcional: coloque seu arquivo em /assets/logo-binc.png e descomente -->
+        <!-- <img class="brand-logo" src="assets/logo-binc.png" alt="BINC" /> -->
+        <div class="brand-title">
+          <div class="kicker">BINC</div>
+          <h1>BINC Lote Runner</h1>
+        </div>
+      </div>
+
+      <div class="topbar-right" aria-label="Placar">
+        <div class="pill">
+          <span class="pill-label">Score</span>
+          <span class="pill-value pill-accent" id="uiScore">0</span>
+        </div>
+        <div class="pill">
+          <span class="pill-label">Recorde</span>
+          <span class="pill-value" id="uiHiScore">0</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="content" role="main">
+      <section class="card game-card" aria-label="Área do jogo">
+        <div class="game-header">
+          <p class="hint" id="uiHint">
+            Espaço / ↑ / Toque para pular • P para pausar
+          </p>
+
+          <div class="actions">
+            <button class="btn" id="btnStart" type="button">
+              Jogar
+            </button>
+            <button class="btn btn-ghost" id="btnPause" type="button" aria-pressed="false">
+              Pausar
+            </button>
+          </div>
+        </div>
+
+        <div class="canvas-wrap">
+          <canvas id="gameCanvas" aria-label="Canvas do jogo" role="img"></canvas>
+
+          <!-- Overlay (mensagens de estado) -->
+          <div class="overlay" id="overlay" aria-live="polite">
+            <div class="overlay-card">
+              <div class="overlay-title" id="overlayTitle">Pronto?</div>
+              <div class="overlay-text" id="overlayText">
+                Clique no botão <strong>Jogar</strong> ou pressione <strong>Espaço</strong>.
+              </div>
+              <div class="overlay-meta" id="overlayMeta"></div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="game-footer">
+          <div class="small">
+            Offline • Sem build • Responsivo • Canvas 2D
+          </div>
+          <div class="small">
+            Dica: em mobile, toque no canvas para pular.
+          </div>
+        </footer>
+      </section>
+
+      <section class="card info-card" aria-label="Sobre o jogo">
+        <h2>Como funciona</h2>
+        <ul>
+          <li>Você controla uma <strong>casinha/sobradinho</strong> correndo pelo loteamento.</li>
+          <li>Desvie de obstáculos (obra, prefeitura, docs, valas) pulando.</li>
+          <li>Coletáveis (<strong>Chave</strong> e <strong>LT</strong>) dão bônus de score.</li>
+          <li>Velocidade e frequência de obstáculos aumentam com o tempo.</li>
+          <li>Seu recorde fica salvo no navegador.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+      <div class="footer-inner">
+        <span>© BINC • Lote Runner</span>
+        <span class="muted">Key: <code>binc_lote_runner_hiscore_v1</code></span>
+      </div>
+    </footer>
+  </div>
+
+  <script defer src="js/game.js"></script>
+</body>
+</html>
