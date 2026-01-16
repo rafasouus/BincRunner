@@ -26,7 +26,7 @@
       if (this.type === 0) { // CONE
         ctx.fillStyle = "#FF9D4C";
         ctx.beginPath();
-        ctx.moveTo(this.x + this.w/2, this.y);
+        ctx.moveTo(this.x + this.w / 2, this.y);
         ctx.lineTo(this.x + this.w, this.y + this.h);
         ctx.lineTo(this.x, this.y + this.h);
         ctx.fill();
@@ -36,7 +36,7 @@
         ctx.fillStyle = "#FF9D4C";
         ctx.beginPath();
         ctx.moveTo(this.x - 5, this.y + 15);
-        ctx.lineTo(this.x + this.w/2, this.y);
+        ctx.lineTo(this.x + this.w / 2, this.y);
         ctx.lineTo(this.x + this.w + 5, this.y + 15);
         ctx.fill();
       } else if (this.type === 2) { // CARRO
@@ -45,13 +45,13 @@
         ctx.fill();
         ctx.fillStyle = "#111"; // Rodas
         ctx.beginPath();
-        ctx.arc(this.x + 15, this.y + this.h, 6, 0, Math.PI*2);
-        ctx.arc(this.x + 45, this.y + this.h, 6, 0, Math.PI*2);
+        ctx.arc(this.x + 15, this.y + this.h, 6, 0, Math.PI * 2);
+        ctx.arc(this.x + 45, this.y + this.h, 6, 0, Math.PI * 2);
         ctx.fill();
       } else { // PEDRA
         ctx.fillStyle = "#1a1a1a";
         ctx.beginPath();
-        ctx.ellipse(this.x + this.w/2, this.y + this.h/2, this.w/2, this.h/2, 0, 0, Math.PI*2);
+        ctx.ellipse(this.x + this.w / 2, this.y + this.h / 2, this.w / 2, this.h / 2, 0, 0, Math.PI * 2);
         ctx.fill();
       }
       ctx.restore();
@@ -75,9 +75,9 @@
       this.obstacles = [];
       this.lastT = 0;
 
-      window.addEventListener("keydown", e => { if(e.code === "Space") this.handleAction(); });
+      window.addEventListener("keydown", e => { if (e.code === "Space") this.handleAction(); });
       this.canvas.addEventListener("pointerdown", e => { e.preventDefault(); this.handleAction(); });
-      
+
       this.resize();
       this.loadHistory();
       requestAnimationFrame(t => this.loop(t));
@@ -124,7 +124,7 @@
       const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
       const list = document.getElementById("historyList");
       if (history.length === 0) return;
-      
+
       list.innerHTML = history.map(item => `
         <li class="history-item">
           <span class="score-tag">${item.score} pts</span>
@@ -155,7 +155,7 @@
         this.player.onGround = true;
       }
 
-      if (this.obstacles.length === 0 || this.obstacles[this.obstacles.length-1].x < BASE_W - 350) {
+      if (this.obstacles.length === 0 || this.obstacles[this.obstacles.length - 1].x < BASE_W - 350) {
         if (Math.random() < 0.02) this.obstacles.push(new Obstacle(BASE_W, this.groundY));
       }
 
