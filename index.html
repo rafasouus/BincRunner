@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>BINC Runner</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
@@ -22,9 +22,9 @@
     </header>
 
     <main class="content">
-      <section class="game-container">
+      <div class="game-wrapper">
         <div class="game-header">
-          <p class="instruction">Pressione <strong>ESPAÇO</strong> ou <strong>CLIQUE</strong> para Jogar/Pular</p>
+          <p class="instruction">Toque na tela ou ESPAÇO para Pular</p>
         </div>
 
         <div class="canvas-wrap">
@@ -32,18 +32,18 @@
           <div class="overlay" id="overlay">
             <div class="overlay-card">
               <div class="overlay-title">BINC Runner</div>
-              <p class="overlay-text" id="overlayText">Clique para Iniciar</p>
+              <p class="overlay-text" id="overlayText">Toque para Iniciar</p>
             </div>
           </div>
         </div>
 
-        <div class="history-card">
-          <h3>Histórico de Scores</h3>
+        <div class="history-section">
+          <h3>Últimas Partidas</h3>
           <ul id="historyList">
-            <li class="empty-msg">Nenhuma partida registrada</li>
+            <li class="empty-msg">Ainda não há registros.</li>
           </ul>
         </div>
-      </section>
+      </div>
     </main>
   </div>
   <script defer src="js/game.js"></script>
