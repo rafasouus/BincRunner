@@ -1,14 +1,23 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
+  <!-- Metadados básicos -->
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
   <title>BINC Runner</title>
+
+  <!-- CSS local (offline) -->
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
 <body>
-  <!-- Pré-load de sprites (offline/local) -->
+  <!--
+    Pré-carregamento de sprites:
+    - Mantém offline
+    - Garante que imagens entrem em cache antes do jogo iniciar
+  -->
   <div class="preload" aria-hidden="true">
     <img id="playerIcon" src="assets/img/icon.svg" alt="">
     <img id="obs_caminhao" src="assets/img/caminhao.png" alt="">
@@ -21,6 +30,7 @@
   </div>
 
   <div class="app">
+    <!-- Topbar -->
     <header class="topbar">
       <div class="brand-title">
         <div class="kicker">GRUPO BINC</div>
@@ -38,7 +48,11 @@
           <span class="value" id="uiHiScore">0</span>
         </div>
 
-        <button class="btn-pause" id="btnPause" type="button" aria-pressed="false" title="Pausar/Retomar (P)">
+        <button class="btn-pause"
+                id="btnPause"
+                type="button"
+                aria-pressed="false"
+                title="Pausar/Retomar (P)">
           Pausar
         </button>
       </div>
@@ -47,7 +61,8 @@
     <main class="content">
       <div class="game-area">
         <div class="game-header">
-          <p class="instruction">Mobile: toque em qualquer lugar • Desktop: ESPAÇO / ↑ • P para pausar • Fácil até 500 pts</p>
+          <!-- Removido: "Fácil até 500 pts" -->
+          <p class="instruction">Mobile: toque em qualquer lugar • Desktop: ESPAÇO / ↑ • P para pausar</p>
         </div>
 
         <div class="canvas-wrap" id="gameZone">

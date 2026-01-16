@@ -1,30 +1,30 @@
-# BINC Lote Runner (Offline Web Mini-Game)
+# BINC Runner
 
-Mini-jogo web estilo runner (tipo dino do Google), com identidade BINC.
-Roda offline, sem build, sem dependências.
+Mini game web (HTML/CSS/JS) com Canvas 2D, assets locais e deploy simples (GitHub Pages).
 
-## Como rodar
-1) Abra o arquivo `index.html` diretamente no navegador.
-2) Controles:
-- Espaço / ↑ / clique / toque: pular
+## Rodar local
+Abra `index.html` no navegador.
+
+## Controles
+- Mobile: toque em qualquer lugar da tela para iniciar / pular / reiniciar
+- Desktop: ESPAÇO ou ↑ para pular
 - P: pausar/retomar
+- Botão "Pausar" no topo
 
-## Estrutura
-/crystal-simple-game/
-  index.html
-  css/styles.css
-  js/game.js
-  assets/ (opcional)
+## Dificuldade
+- 0 a 500 pts: nível fácil
+- após 500 pts: aumenta 1 nível a cada +300 pts
+- a cada nível: mais velocidade, mais obstáculos e menor espaço mínimo entre eles
 
-## Assets (opcional)
-Se quiser colocar uma logo no topo:
-- Adicione `assets/logo-binc.png`
-- Descomente a linha do `<img>` no `index.html`.
+## Espaçamento entre obstáculos
+- O "gap base" foi aumentado em +10% para dar mais respiro ao jogador.
 
-## Persistência de recorde
-O recorde fica salvo via localStorage:
-- key: `binc_lote_runner_hiscore_v1`
+## Persistência
+- Hi-score: `binc_runner_hiscore_v1`
+- Histórico (últimas 5 partidas): `binc_runner_history_v2`
 
-## Publicar como site
-Hospede como página estática (Netlify, Vercel, GitHub Pages ou servidor comum):
-- basta enviar a pasta inteira.
+## Publicar (GitHub Pages)
+Settings → Pages → Deploy from branch → `main` / root
+
+URL típica:
+https://rafasouus.github.io/BincRunner/
