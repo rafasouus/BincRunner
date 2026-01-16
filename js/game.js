@@ -3,65 +3,30 @@
 
   const BASE_W = 900;
   const BASE_H = 300;
-  const HISTORY_KEY = "binc_runner_scores";
+  const HISTORY_KEY = "binc_runner_history_v2";
+
+  // Configuração dos obstáculos reais baseados nos seus PNGs
+  const OBS_CONFIGS = [
+    { id: 'obs_caminhao', w: 80, h: 50 },
+    { id: 'obs_carrinho', w: 40, h: 35 },
+    { id: 'obs_casa1', w: 60, h: 60 },
+    { id: 'obs_casa2', w: 65, h: 60 },
+    { id: 'obs_escavadora', w: 85, h: 55 },
+    { id: 'obs_misturador', w: 75, h: 55 },
+    { id: 'obs_transporte', w: 90, h: 45 }
+  ];
 
   class Obstacle {
     constructor(x, groundY) {
+      const config = OBS_CONFIGS[Math.floor(Math.random() * OBS_CONFIGS.length)];
+      this.img = document.getElementById(config.id);
       this.x = x;
-      this.groundY = groundY;
-      this.type = Math.floor(Math.random() * 4); // 0: Cone, 1: Casa, 2: Carro, 3: Pedra
-      
-      const configs = [
-        { w: 30, h: 40 }, // Cone
-        { w: 55, h: 50 }, // Casa
-        { w: 70, h: 35 }, // Carro
-        { w: 40, h: 25 }  // Pedra
-      ];
-      
-      this.w = configs[this.type].w;
-      this.h = configs[this.type].h;
+      this.w = config.w;
+      this.h = config.h;
       this.y = groundY - this.h;
     }
-
     update(dt, speed) { this.x -= speed * dt; }
-
-    draw(ctx) {
-      ctx.save();
-      if (this.type === 0) { // CONE
-        ctx.fillStyle = "#FF9D4C";
-        ctx.beginPath();
-        ctx.moveTo(this.x + this.w/2, this.y);
-        ctx.lineTo(this.x + this.w, this.y + this.h);
-        ctx.lineTo(this.x, this.y + this.h);
-        ctx.fill();
-        ctx.fillStyle = "#FFF";
-        ctx.fillRect(this.x + 8, this.y + 18, this.w - 16, 4);
-      } else if (this.type === 1) { // CASA
-        ctx.fillStyle = "#222";
-        ctx.fillRect(this.x, this.y + 15, this.w, this.h - 15);
-        ctx.fillStyle = "#FF9D4C";
-        ctx.beginPath();
-        ctx.moveTo(this.x - 5, this.y + 15);
-        ctx.lineTo(this.x + this.w/2, this.y);
-        ctx.lineTo(this.x + this.w + 5, this.y + 15);
-        ctx.fill();
-      } else if (this.type === 2) { // CARRO
-        ctx.fillStyle = "#333";
-        ctx.roundRect(this.x, this.y + 10, this.w, this.h - 10, 5);
-        ctx.fill();
-        ctx.fillStyle = "#000"; // Rodas
-        ctx.beginPath();
-        ctx.arc(this.x + 15, this.y + this.h, 6, 0, Math.PI*2);
-        ctx.arc(this.x + 55, this.y + this.h, 6, 0, Math.PI*2);
-        ctx.fill();
-      } else { // PEDRA
-        ctx.fillStyle = "#1a1a1a";
-        ctx.beginPath();
-        ctx.ellipse(this.x + this.w/2, this.y + this.h/2, this.w/2, this.h/2, 0, 0, Math.PI*2);
-        ctx.fill();
-      }
-      ctx.restore();
-    }
+    draw(ctx) { ctx.drawImage(this.img, this.x, this.y, this.w, this.h); }
   }
 
   class Game {
@@ -72,28 +37,33 @@
       this.gravity = 2400;
       this.state = "ready";
       this.score = 0;
-      this.baseSpeed = 280; // Velocidade reduzida solicitada
+      this.baseSpeed = 280; // 20% mais lento
       this.speed = this.baseSpeed;
+      
       this.player = {
-        sprite: document.getElementById("playerSpriteSource"),
-        x: 80, y: 0, w: 50, h: 50, vy: 0, onGround: true
+        sprite: document.getElementById("playerIcon"),
+        x: 80, y: 0, w: 48, h: 48, vy: 0, onGround: true
       };
+      
       this.obstacles = [];
       this.lastT = 0;
 
-      // Eventos de Toque e Teclado
-      window.addEventListener("keydown", e => { if(e.code === "Space" || e.code === "ArrowUp") this.handleAction(); });
-      this.canvas.addEventListener("pointerdown", e => { e.preventDefault(); this.handleAction(); });
-      
-      window.addEventListener("resize", () => this.resize());
+      // Eventos de Pulo (Mobile e Desktop)
+      const action = (e) => { e.preventDefault(); this.handleInput(); };
+      const zone = document.getElementById("gameZone");
+      zone.addEventListener("touchstart", action, { passive: false });
+      zone.addEventListener("mousedown", action);
+      window.addEventListener("keydown", e => { if(e.code === "Space") this.handleInput(); });
+
       this.resize();
-      this.updateHistoryUI();
+      this.loadHistory();
+      window.addEventListener("resize", () => this.resize());
       requestAnimationFrame(t => this.loop(t));
     }
 
-    handleAction() {
+    handleInput() {
       if (this.state === "running") {
-        if (this.player.onGround) { this.player.vy = -850; this.player.onGround = false; }
+        if (this.player.onGround) { this.player.vy = -880; this.player.onGround = false; }
       } else { this.start(); }
     }
 
@@ -108,25 +78,25 @@
 
     saveScore() {
       if (this.score < 10) return;
-      const scores = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+      const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
       const now = new Date();
-      scores.unshift({
-        val: Math.floor(this.score),
+      history.unshift({
+        score: Math.floor(this.score),
         date: now.toLocaleDateString('pt-BR'),
         time: now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
       });
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(scores.slice(0, 5)));
-      this.updateHistoryUI();
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, 5)));
+      this.loadHistory();
     }
 
-    updateHistoryUI() {
-      const scores = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+    loadHistory() {
+      const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
       const list = document.getElementById("historyList");
-      if (scores.length === 0) return;
-      list.innerHTML = scores.map(s => `
+      if (history.length === 0) return;
+      list.innerHTML = history.map(h => `
         <li class="history-item">
-          <span class="score-val">${s.val} pts</span>
-          <span class="date-val">${s.date} - ${s.time}</span>
+          <span class="score-tag">${h.score} pts</span>
+          <span class="time-tag">${h.date} às ${h.time}</span>
         </li>
       `).join('');
     }
@@ -140,10 +110,9 @@
     }
 
     update(dt) {
-      this.speed += 5 * dt;
-      this.score += dt * 12;
+      this.speed += 4 * dt;
+      this.score += dt * 10;
       document.getElementById("uiScore").textContent = Math.floor(this.score);
-
       this.player.vy += this.gravity * dt;
       this.player.y += this.player.vy * dt;
 
@@ -154,36 +123,31 @@
       }
 
       if (this.obstacles.length === 0 || this.obstacles[this.obstacles.length-1].x < BASE_W - 350) {
-        if (Math.random() < 0.02) this.obstacles.push(new Obstacle(BASE_W, this.groundY));
+        if (Math.random() < 0.015) this.obstacles.push(new Obstacle(BASE_W, this.groundY));
       }
 
       for (let obs of this.obstacles) {
         obs.update(dt, this.speed);
-        // Colisão com hitbox segura
-        const px = this.player.x + 10, py = this.player.y + 10, pw = this.player.w - 20, ph = this.player.h - 15;
-        if (px < obs.x + obs.w && px + pw > obs.x && py < obs.y + obs.h && py + ph > obs.y) {
+        // Hitbox ajustada para os PNGs
+        if (this.player.x + 10 < obs.x + obs.w - 10 && this.player.x + this.player.w - 10 > obs.x + 10 &&
+            this.player.y + 10 < obs.y + obs.h - 5 && this.player.y + this.player.h - 5 > obs.y + 10) {
           this.state = "over";
           this.saveScore();
           document.getElementById("overlay").classList.remove("hidden");
-          document.getElementById("overlayTitle").textContent = "Fim de Jogo";
-          document.getElementById("overlayText").textContent = "Toque para Reiniciar";
+          document.getElementById("overlayText").textContent = "Score: " + Math.floor(this.score) + " - Toque para Reiniciar";
         }
       }
-      this.obstacles = this.obstacles.filter(o => o.x > -100);
+      this.obstacles = this.obstacles.filter(o => o.x > -150);
     }
 
     draw() {
       this.ctx.setTransform(this.scale, 0, 0, this.scale, 0, 0);
       this.ctx.fillStyle = "#000";
       this.ctx.fillRect(0, 0, BASE_W, BASE_H);
-
-      // Chão
       this.ctx.strokeStyle = "rgba(255,157,76,0.3)";
-      this.ctx.lineWidth = 2;
       this.ctx.beginPath();
       this.ctx.moveTo(0, this.groundY); this.ctx.lineTo(BASE_W, this.groundY);
       this.ctx.stroke();
-
       for (let obs of this.obstacles) obs.draw(this.ctx);
       this.ctx.drawImage(this.player.sprite, this.player.x, this.player.y, this.player.w, this.player.h);
     }
