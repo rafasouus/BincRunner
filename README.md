@@ -33,17 +33,18 @@ View your app in AI Studio: https://ai.studio/apps/drive/1nvaP11C-Glf9ibF_7sCRFE
 
 Docs: `apps-script/README.md`
 
-## GitHub Pages (online)
+## GitHub Pages (online, simples)
 
-This repo includes a GitHub Actions workflow that builds and deploys `dist/` to Pages.
+Publicacao estatica via pasta `docs/` no branch `main`.
 
-1. Push to GitHub.
-2. In GitHub: **Settings > Pages**.
-3. Set **Source** to **GitHub Actions**.
-4. Wait for the workflow to finish.
-5. Access: `https://<user>.github.io/<repo>/`.
-
-Note: the workflow builds with a relative base path so GitHub Pages works under any repo name.
+1. Gere o build:
+   `npm run build`
+2. Confirme que a pasta `docs/` foi criada.
+3. Commit/push da pasta `docs/`.
+4. Em GitHub: **Settings > Pages**.
+5. Selecione **Source: Deploy from a branch**.
+6. Branch: `main` / Folder: `/docs`.
+7. Acesse: `https://<user>.github.io/<repo>/`.
 
 ## Build and preview
 

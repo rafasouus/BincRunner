@@ -8,6 +8,10 @@ const base = process.env.VITE_BASE_PATH || './';
 
 export default defineConfig({
   base,
+  build: {
+    outDir: 'docs',
+    emptyOutDir: true,
+  },
   server: {
     port: 3000,
     host: '0.0.0.0',
