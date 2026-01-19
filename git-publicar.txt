@@ -1,0 +1,32 @@
+cd "C:\Users\User\iCloudDrive\VSCode\Projeto-007-BincRunner\BincRunner"
+
+# Aborta se houver arquivos offline do iCloud
+$offline = Get-ChildItem -Recurse -File | Where-Object { ($_.Attributes -band [IO.FileAttributes]::Offline) -ne 0 }
+if ($offline) {
+  Write-Host "Arquivos ainda offline no iCloud. Marque 'Sempre manter neste dispositivo' e aguarde baixar."
+  $offline | Select-Object -First 20 FullName
+  exit 1
+}
+
+# Só faz pull se já existir commit
+git rev-parse --verify HEAD 2>$null | Out-Null
+if ($LASTEXITCODE -eq 0) {
+  git pull --rebase
+} else {
+  Write-Host "Primeiro commit: pulando git pull."
+}
+
+git add .
+
+git diff --cached --quiet
+if ($LASTEXITCODE -eq 0) {
+  Write-Host "Nada para commitar."
+} else {
+  $ts = Get-Date -Format "yyyy-MM-dd HH:mm"
+  $msg = "chore(release): update $ts"
+  git commit -m $msg
+}
+
+git branch -M main
+git push -u origin main
+git status
