@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 const rootDir = fileURLToPath(new URL('.', import.meta.url));
-const base = process.env.VITE_BASE_PATH || '/';
+const base = process.env.VITE_BASE_PATH || './';
 
 export default defineConfig({
   base,

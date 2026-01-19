@@ -43,7 +43,7 @@ This repo includes a GitHub Actions workflow that builds and deploys `dist/` to 
 4. Wait for the workflow to finish.
 5. Access: `https://<user>.github.io/<repo>/`.
 
-Note: the workflow sets the Vite base path from the repo name automatically.
+Note: the workflow builds with a relative base path so GitHub Pages works under any repo name.
 
 ## Build and preview
 
