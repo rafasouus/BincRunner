@@ -1,92 +1,17 @@
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-  <!-- Metadados básicos -->
-  <meta charset="utf-8" />
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-
-  <title>BINC Runner</title>
-
-  <!-- CSS local (offline) -->
-  <link rel="stylesheet" href="css/styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BincRunner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/index.css">
 </head>
-
 <body>
-  <!--
-    Pré-carregamento de sprites:
-    - Mantém offline
-    - Garante que imagens entrem em cache antes do jogo iniciar
-  -->
-  <div class="preload" aria-hidden="true">
-    <img id="playerIcon" src="assets/img/icon.svg" alt="">
-    <img id="obs_caminhao" src="assets/img/caminhao.png" alt="">
-    <img id="obs_carrinho" src="assets/img/carrinho-de-mao.png" alt="">
-    <img id="obs_casa1" src="assets/img/casa-moderna.png" alt="">
-    <img id="obs_casa2" src="assets/img/casa-moderna-2.png" alt="">
-    <img id="obs_escavadora" src="assets/img/escavadora.png" alt="">
-    <img id="obs_misturador" src="assets/img/misturador-de-concreto.png" alt="">
-    <img id="obs_transporte" src="assets/img/transporte.png" alt="">
-  </div>
-
-  <div class="app">
-    <!-- Topbar -->
-    <header class="topbar">
-      <div class="brand-title">
-        <div class="kicker">GRUPO BINC</div>
-        <h1>BINC Runner</h1>
-      </div>
-
-      <div class="topbar-right">
-        <div class="score-pill">
-          <span class="label">Score</span>
-          <span class="value" id="uiScore">0</span>
-        </div>
-
-        <div class="score-pill">
-          <span class="label">Recorde</span>
-          <span class="value" id="uiHiScore">0</span>
-        </div>
-
-        <button class="btn-pause"
-                id="btnPause"
-                type="button"
-                aria-pressed="false"
-                title="Pausar/Retomar (P)">
-          Pausar
-        </button>
-      </div>
-    </header>
-
-    <main class="content">
-      <div class="game-area">
-        <div class="game-header">
-          <!-- Removido: "Fácil até 500 pts" -->
-          <p class="instruction">Mobile: toque em qualquer lugar • Desktop: ESPAÇO / ↑ • P para pausar</p>
-        </div>
-
-        <div class="canvas-wrap" id="gameZone">
-          <canvas id="gameCanvas"></canvas>
-
-          <div class="overlay" id="overlay" aria-live="polite">
-            <div class="overlay-card">
-              <div class="overlay-title" id="overlayTitle">BINC Runner</div>
-              <p id="overlayText">Toque para Iniciar</p>
-              <p class="overlay-meta" id="overlayMeta"></p>
-            </div>
-          </div>
-        </div>
-
-        <div class="history-card">
-          <h3>Histórico de Pontuação</h3>
-          <ul id="historyList">
-            <li class="empty-msg">Nenhuma partida registrada</li>
-          </ul>
-        </div>
-      </div>
-    </main>
-  </div>
-
-  <script defer src="js/game.js"></script>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
 </body>
 </html>

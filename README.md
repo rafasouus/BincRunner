@@ -1,30 +1,53 @@
-# BINC Runner
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-Mini game web (HTML/CSS/JS) com Canvas 2D, assets locais e deploy simples (GitHub Pages).
+# Run and deploy your AI Studio app
 
-## Rodar local
-Abra `index.html` no navegador.
+This contains everything you need to run your app locally.
 
-## Controles
-- Mobile: toque em qualquer lugar da tela para iniciar / pular / reiniciar
-- Desktop: ESPAÇO ou ↑ para pular
-- P: pausar/retomar
-- Botão "Pausar" no topo
+View your app in AI Studio: https://ai.studio/apps/drive/1nvaP11C-Glf9ibF_7sCRFEknIOhA6omk
 
-## Dificuldade
-- 0 a 500 pts: nível fácil
-- após 500 pts: aumenta 1 nível a cada +300 pts
-- a cada nível: mais velocidade, mais obstáculos e menor espaço mínimo entre eles
+## Run locally (Windows)
 
-## Espaçamento entre obstáculos
-- O "gap base" foi aumentado em +10% para dar mais respiro ao jogador.
+**Prerequisites:** Node.js 18+ (LTS recommended)
 
-## Persistência
-- Hi-score: `binc_runner_hiscore_v1`
-- Histórico (últimas 5 partidas): `binc_runner_history_v2`
+1. Install dependencies:
+   `npm install`
+2. Start the dev server:
+   `npm run dev`
+3. Open the app:
+   `http://localhost:3000`
 
-## Publicar (GitHub Pages)
-Settings → Pages → Deploy from branch → `main` / root
+## Google Sheets ranking (global top 10)
 
-URL típica:
-https://rafasouus.github.io/BincRunner/
+1. Create a Google Sheet and open **Extensions > Apps Script**.
+2. Paste the contents of `apps-script/Code.gs`.
+3. Deploy as **Web app**:
+   - Execute as: **Me**
+   - Who has access: **Anyone**
+4. Copy the Web App URL (ends with `/exec`).
+5. Set it in `.env.local`:
+   `VITE_SCORE_API_URL=https://script.google.com/macros/s/XXXXX/exec`
+6. Restart the dev server.
+
+Docs: `apps-script/README.md`
+
+## GitHub Pages (online)
+
+This repo includes a GitHub Actions workflow that builds and deploys `dist/` to Pages.
+
+1. Push to GitHub.
+2. In GitHub: **Settings > Pages**.
+3. Set **Source** to **GitHub Actions**.
+4. Wait for the workflow to finish.
+5. Access: `https://<user>.github.io/<repo>/`.
+
+Note: the workflow sets the Vite base path from the repo name automatically.
+
+## Build and preview
+
+1. Build:
+   `npm run build`
+2. Preview:
+   `npm run preview`
